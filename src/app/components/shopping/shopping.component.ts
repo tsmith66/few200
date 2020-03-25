@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ShoppingListItemModel } from './model';
+import { ShoppingListItemModel } from './models';
+import { ShoppingService } from 'src/app/services/shopping.service';
 
 @Component({
   selector: 'app-shopping',
@@ -8,18 +9,16 @@ import { ShoppingListItemModel } from './model';
 })
 export class ShoppingComponent implements OnInit {
 
-  shoppingList: ShoppingListItemModel[] = [
-    { description: 'Bread' },
-    { description: 'Beer' }
-  ];
-  constructor() { }
+  shoppingList: ShoppingListItemModel[] = [];
+  constructor(private services: ShoppingService) { }
 
   createANewShoppingItem(description: string) {
-    const newItem: ShoppingListItemModel = { description };
-    this.shoppingList = [newItem, ...this.shoppingList];
+    this.services.addItem(description);
+    this.shoppingList = this.services.getItems();
   }
 
   ngOnInit(): void {
+    this.shoppingList = this.services.getItems();
   }
 
 }

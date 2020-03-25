@@ -7,9 +7,16 @@ import { HeaderComponent } from './components/header/header.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ShoppingComponent } from './components/shopping/shopping.component';
 import { NavComponent } from './components/nav/nav.component';
-import { ShoppingEntityComponent } from './component/shopping/components/shopping-entity/shopping-entity.component';
-import { ShoppingListComponent } from './component/shopping/components/shopping-list/shopping-list.component';
-import { ComponentsComponent } from './component/shopping/components/components.component';
+import { ShoppingEntryComponent } from './components/shopping/components/shopping-entry/shopping-entry.component';
+import { ShoppingListComponent } from './components/shopping/components/shopping-list/shopping-list.component';
+import { ShoppingService } from './services/shopping.service';
+import { CounterComponent } from './components/counter/counter.component';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { reducers } from './reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { CounterEffects } from './effects/counter.effects';
+import { BooksModule } from './features/books/books.module';
 
 @NgModule({
   declarations: [
@@ -18,15 +25,19 @@ import { ComponentsComponent } from './component/shopping/components/components.
     DashboardComponent,
     ShoppingComponent,
     NavComponent,
-    ShoppingEntityComponent,
+    ShoppingEntryComponent,
     ShoppingListComponent,
-    ComponentsComponent
+    CounterComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BooksModule,
+    StoreModule.forRoot(reducers),
+    StoreDevtoolsModule.instrument(),
+    EffectsModule.forRoot([CounterEffects])
   ],
-  providers: [],
+  providers: [ShoppingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
